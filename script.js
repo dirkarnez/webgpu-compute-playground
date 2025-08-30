@@ -129,7 +129,7 @@ async function init() {
   const copyArrayBuffer = stagingBuffer.getMappedRange(0, BUFFER_SIZE);
   const data = copyArrayBuffer.slice();
   stagingBuffer.unmap();
-  console.log(new Float32Array(data));
+  document.getElemenetById("output").innerText = JSON.stringify(new Float32Array(data));
 }
 
 init();
