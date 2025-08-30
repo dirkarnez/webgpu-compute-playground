@@ -1,3 +1,5 @@
+const outputDiv = document.getElementById("output");
+
 // Define global buffer size
 const BUFFER_SIZE = 1000;
 
@@ -129,7 +131,13 @@ async function init() {
   const copyArrayBuffer = stagingBuffer.getMappedRange(0, BUFFER_SIZE);
   const data = copyArrayBuffer.slice();
   stagingBuffer.unmap();
-  document.getElemenetById("output").innerText = JSON.stringify(new Float32Array(data));
+  outputDiv.innerText = JSON.stringify(new Float32Array(data));
 }
 
-init();
+(async () => {
+  try {
+    await init();
+  } catch (e) {
+    outputDiv.innerText = `${e}`;
+  }
+})();
