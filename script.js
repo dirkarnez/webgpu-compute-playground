@@ -1,4 +1,4 @@
-const outputDiv = document.getElementById("output");
+const outputDiv = document.getElementById("output1");
 
 // Define global buffer size
 const BUFFER_SIZE = 1000;
