@@ -6,7 +6,8 @@
   </head>
   <body>
     <h1>WebGPU data</h1>
-    <div id="output" style="word-break: break-all;"></div>
+    <div id="output1" style="word-break: break-all;"></div><br>
+    <div id="output2" style="word-break: break-all;"></div>
     <script src="./script.js"></script>
     <script>
       async function matrixMultiply2D(A, B) {
@@ -231,6 +232,21 @@
           }, 0);
         });
       }
+
+      (async () => {
+        const productMatrix = await matrixMultiply2D([
+          [1, 0, 1],
+          [2, 1, 1],
+          [0, 1, 1],
+          [1, 1, 2]
+        ], [
+          [1, 2, 1],
+          [2, 3, 1],
+          [4, 2, 2]
+        ]);
+
+        document.getElementById("output2").innerText = JSON.stringify(productMatrix);
+      })();
     </script>
   </body>
 </html>
