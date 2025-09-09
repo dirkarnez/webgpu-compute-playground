@@ -69,7 +69,19 @@
         if (!adapter) {
           throw Error("Couldn't request WebGPU adapter.");
         }
-        const device = await adapter.requestDevice();
+        // [GPUSupportedFeatures - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/GPUSupportedFeatures)
+        const requiredFeatures = [];
+        if (adapter.features.has("texture-compression-astc")) {
+          requiredFeatures.push("texture-compression-astc");
+        }
+      
+        const device = await adapter.requestDevice({
+          requiredFeatures,
+        });
+
+        device.features.forEach((value) => {
+          console.log(value);
+        });
     
         // Flatten A
         const Adata = new Float32Array(aRows * aCols);
