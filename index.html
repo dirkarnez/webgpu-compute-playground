@@ -48,21 +48,21 @@
           console.log("WebGPU not supported. Falling back to CPU multiplication.");
           return {
             by: "CPU",
-            value: cpuMatrixMultiply2D(A, B)
+            value: (await cpuMatrixMultiply2D(A, B))
           };
         } else {
           console.log("WebGPU supported. Using GPU multiplication.");
           try {
             return {
               by: "GPU",
-              value: gpuMatrixMultiply2D(A, B)
+              value: (await gpuMatrixMultiply2D(A, B))
             };
           } catch (err) {
             console.error("WebGPU error:", err, "Falling back to CPU multiplication.");
             // If anything fails on GPU side, fallback:
             return {
               by: "CPU",
-              value: cpuMatrixMultiply2D(A, B)
+              value: (await cpuMatrixMultiply2D(A, B))
             };
           }
         }
