@@ -78,14 +78,15 @@
         if (!adapter) {
           throw Error("Couldn't request WebGPU adapter.");
         }
+        
+        const hasCore = adapter.features.has('core-features-and-limits');
+        
         // [GPUSupportedFeatures - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/GPUSupportedFeatures)
-        const requiredFeatures = [];
-        if (adapter.features.has("texture-compression-astc")) {
-          requiredFeatures.push("texture-compression-astc");
-        }
-      
+        // [WebGPU 'core-features-and-limits'](https://gist.github.com/greggman/0dea9995e33393c546a4c2bd2a12e50e)
         const device = await adapter.requestDevice({
-          requiredFeatures,
+          requiredFeatures: [
+            ...(hasCore ? ['core-features-and-limits'] : []),
+          ],
         });
 
         device.features.forEach((value) => {
