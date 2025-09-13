@@ -8,7 +8,7 @@
     <h1>WebGPU data</h1>
     <div id="output1" style="word-break: break-all;"></div><br>
     <div id="output2" style="word-break: break-all;"></div>
-    <script src="./script.js"></script>
+    <!-- script src="./script.js"></script> -->
     <script>
       // [WebGPU Matrix Multiplication / Jeya Balaji Balasubramanian | Observable](https://observablehq.com/@jeyabbalas/webgpu-matrix-multiplication)
       async function matrixMultiply2D(A, B) {
@@ -42,19 +42,28 @@
             `Dimension mismatch: A is ${aRows}x${aCols}, B is ${bRows}x${bCols}.`
           );
         }
-      
+
         // -- 2) Check WebGPU availability
         if (!('gpu' in navigator)) {
           console.log("WebGPU not supported. Falling back to CPU multiplication.");
-          return cpuMatrixMultiply2D(A, B);
+          return {
+            by: "CPU",
+            value: cpuMatrixMultiply2D(A, B)
+          };
         } else {
           console.log("WebGPU supported. Using GPU multiplication.");
           try {
-            return gpuMatrixMultiply2D(A, B);
+            return {
+              by: "GPU",
+              value: gpuMatrixMultiply2D(A, B)
+            };
           } catch (err) {
             console.error("WebGPU error:", err, "Falling back to CPU multiplication.");
             // If anything fails on GPU side, fallback:
-            return cpuMatrixMultiply2D(A, B);
+            return {
+              by: "CPU",
+              value: cpuMatrixMultiply2D(A, B)
+            };
           }
         }
       }
@@ -254,7 +263,7 @@
       }
 
       (async () => {
-        const productMatrix = await matrixMultiply2D([
+        const productMatrixResult = await matrixMultiply2D([
           [1, 0, 1],
           [2, 1, 1],
           [0, 1, 1],
